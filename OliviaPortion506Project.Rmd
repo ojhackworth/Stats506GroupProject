@@ -1,0 +1,61 @@
+---
+title: "Olivia’s Portion of 506 Project"
+author: "Olivia Hackworth"
+date: "11/25/2018"
+output: html_document
+---
+
+###Libraries
+
+```{r}
+library(tidyverse)
+```
+
+
+###Data
+
+```{r}
+data = read.csv("~/Documents/Stats506/communities.csv", header = FALSE)
+```
+
+
+###Data Cleaning
+
+```{r}
+clean_data = data %>%
+  select(V6,V26,V34,V17,V128)
+
+colnames(clean_data) = c("population","perCapInc","PctPopUnderPov",
+                         'pctUrban',"ViolentCrimesPerPop")
+
+clean_data = clean_data %>%
+  mutate(HighCrime = ifelse(ViolentCrimesPerPop >= 0.5,1,0))%>%
+  select(-ViolentCrimesPerPop)
+```
+
+###export clean data
+
+```{r}
+write.csv(clean_data,file = "CommunitiesCrimeData.csv")
+```
+
+
+
+#Put following in full doc
+
+
+Logistic regression
+
+goodness of fit
+
+probit regression
+
+goodness of fit
+
+comparison
+
+
+###Conclusion
+
+
+###References
