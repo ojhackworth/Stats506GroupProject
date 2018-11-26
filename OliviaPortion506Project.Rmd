@@ -43,14 +43,47 @@ write.csv(clean_data,file = "CommunitiesCrimeData.csv")
 
 #Put following in full doc
 
+set up
+
+```{r, eval=FALSE}
+clear
+import delimited CommunitiesCrimeData.csv
+```
+
 
 Logistic regression
 
+```{r, eval=FALSE}
+logistic highcrime percapinc pctpopunderpov pcturban population
+```
+
+![caption](logistic.png)
+
+
+
 goodness of fit
+
+```{r, eval=FALSE}
+estat gof
+```
+
+![](logistic_gof.png)
 
 probit regression
 
+```{r, eval=FALSE}
+probit highcrime percapinc pctpopunderpov pcturban population
+```
+
+![](probit.png)
+
 goodness of fit
+
+```{r, eval=FALSE}
+estat gof
+```
+
+![](probit_gof.png)
 
 comparison
 
