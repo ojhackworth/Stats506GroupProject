@@ -5,7 +5,7 @@ date: "Nov.26 2018"
 output: html_document
 ---
 
-The purpose of our group is to compare the performance between Probit Regression and Logistic Regression in ¡°Communities and Crime Data Set¡± with Stata, R and Python. 
+The purpose of our group is to compare the performance between Probit Regression and Logistic Regression in ??Communities and Crime Data Set?? with Stata, R and Python. 
 
 <font size="5">Introduction to Probit Regression and Logistic Regression</font><br /> 
 
@@ -14,7 +14,7 @@ Logit model and probit model can both be used to do nonlinear estimation on dich
 
 <font size="5">Description of Data</font><br /> 
 
-The dataset we used is ¡°Communities and Crime Data Set¡± from UCI Machine Learning Repository. The data combines socio-economic data from the 1990 US Census, law enforcement data from the 1990 US LEMAS survey, and crime data from the 1995 FBI UCR.
+The dataset we used is ??Communities and Crime Data Set?? from UCI Machine Learning Repository. The data combines socio-economic data from the 1990 US Census, law enforcement data from the 1990 US LEMAS survey, and crime data from the 1995 FBI UCR.
 
 We chose ViolentCrimesPerPop as response variable and Population, perCapInc, PctPopUnderPov, pctUrban as predictor variables. Our task is to figure out what is more likely to cause high violent crime rate based on their personal information. The probit and logistic regression are carried out to handle this challenge.
 
@@ -195,7 +195,8 @@ From the summary of logit model, we can also see that except variable *perCapInc
 We selected the "Population, perCapInc, PctPopUnderPov, pctUrban" as predictor variables and deleted the missing value.
 
 ```{r}
-communities.data <- read.csv("~/communities.data.txt", header=FALSE)
+#communities.data <- read.csv("~/communities.data.txt", header=FALSE)
+communities.data <- read.csv("~/Stats506GroupProject/communities.data.txt", header=FALSE)
 df3<-select(communities.data,c(6,17,26,34,128))
 df3<-na.omit(df3)
 a=rep(0,1994)
