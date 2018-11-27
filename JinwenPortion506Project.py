@@ -8,7 +8,8 @@ import numpy as np
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
 import pysal
-from scipy.stats import chi2
+from scipy.stats import chi2, norm
+
 
 ## load the dataset ###
 with open('communities.data','rb') as f:
@@ -70,6 +71,34 @@ def hl_test(data, g):
     print('\n HL-chi2({}): {}, p-value: {}\n'.format(df, hltest, pval))
 #    return df, hltest, pval
 
+
+def logit_p(skm, x):
+    '''
+     Print the p-value for sklearn logit model
+
+    Input: model, nparray(df of independent variables)
+    
+    Output: none
+    '''
+    pb = skm.predict_proba(x)
+    n = len(pb)
+    m = len(skm.coef_[0]) + 1
+    coefs = np.concatenate([skm.intercept_, skm.coef_[0]])
+    x_full = np.matrix(np.insert(np.array(x), 0, 1, axis = 1))
+    result = np.zeros((m, m))
+    for i in range(n):
+        result = result + np.dot(np.transpose(x_full[i, :]), x_full[i, :]) * pb[i,1] * pb[i, 0]
+    vcov = np.linalg.inv(np.matrix(result))
+    se = np.sqrt(np.diag(vcov))
+    t =  coefs/se  
+    pval = (1 - norm.cdf(abs(t))) * 2
+    print(pd.DataFrame(pval, index=['intercept', 'population', 'pctUrban', 
+                                    'perCapInc', 'PctPopUnderPov'], 
+                       columns=['p-value']))
+#    return pval
+
+
+
 ## create a cutoff for 'ViolentCrimesPerPop'
 ## recode >0.5 as 1, and <= 0.5 as 0
 data['ViolentCrimesPerPop'][ data['ViolentCrimesPerPop'] > 0.5 ] = 1
@@ -77,13 +106,6 @@ data['ViolentCrimesPerPop'][ data['ViolentCrimesPerPop'] <= 0.5 ] = 0
 
 X = data.iloc[:,:4]
 Y = data.iloc[:, 4]
-
-
-## fit logit model and apply HL test
-lr = LogisticRegression(C=1000.0, random_state=0)
-lr.fit(X, Y)
-data['prob'] = lr.predict_proba(X)[:, 1]
-p_logit = hl_test(data, 5)
 
 
 ## fit probit model and apply HL test
@@ -96,13 +118,10 @@ data['prob'] = pbt.predy
 print(pbt.summary)
 p_probit = hl_test(data, 5)
 
-#data_st = data.sort_values('prob')
-#data_st['dcl'] = pd.qcut(data_st['prob'], 10)
-#ys = data_st['ViolentCrimesPerPop'].groupby(data_st.dcl).sum()
-#yt = data_st['ViolentCrimesPerPop'].groupby(data_st.dcl).count()
-#yn = yt - ys
-#yps = data_st['prob'].groupby(data_st.dcl).sum()
-#ypt = data_st['prob'].groupby(data_st.dcl).count()
-#ypn = ypt - yps 
-#hltest = ( ((ys - yps)**2 / yps) + ((yn - ypn)**2 / ypn) ).sum()
-#pval = 1 - chi2.cdf(hltest, 8)
+
+## fit logit model and apply HL test
+lr = LogisticRegression(C=1000.0, random_state=0)
+lr.fit(X, Y)
+data['prob'] = lr.predict_proba(X)[:, 1]
+print(logit_p(lr, X.values))
+p_logit = hl_test(data, 5)
