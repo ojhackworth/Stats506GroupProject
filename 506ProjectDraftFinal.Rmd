@@ -1,5 +1,5 @@
 ---
-title: "STATS 506 group project"
+title: "STATS 506 Group Project"
 author: "Group 13 (Jinwen Cao, Olivia Hackworth, Xian Zhang)"
 date: "Nov.27 2018"
 output: html_document
@@ -9,7 +9,7 @@ The purpose of our group is to compare the performance between Probit Regression
 
 <font size="5">Introduction to Probit Regression and Logistic Regression</font><br /> 
 
-The logit model and probit model can both be used to do nonlinear estimation on dichotomous or binary dependent variables. In this tutorial, we will mainly focus on data with binary outcome. These two models both share the same basic idea of applying a link function to binary dependent variables to transform it to continuous variables on the set of real numbers. After the transformation, the commonly used linear regression can be applied to the new data with the original independent variables and transformed dependent variables. The main difference between logit model and probit model is the link function they used. The probit model used the cumulative distribution function (CDF) of standard normal distribution to define link function while the logit model used the CDF of logistic model. The logit function is very similar to standard normal distribution function while the normal distribution function has heavier tail than logit function does.
+The logit model and probit model can both be used to do nonlinear estimation on dichotomous or binary dependent variables. In this tutorial, we will mainly focus on data with binary outcome. In this case the logit model and the logistic model can be used as the same model. These two models both share the same basic idea of applying a link function to binary dependent variables to transform it to continuous variables on the set of real numbers. After the transformation, the commonly used linear regression can be applied to the new data with the original independent variables and transformed dependent variables. The main difference between logit model and probit model is the link function they used. The probit model used the cumulative distribution function (CDF) of standard normal distribution to define link function while the logit model used the CDF of logistic model. The logit function is very similar to standard normal distribution function while the normal distribution function has heavier tail than logit function does.
 
 
 <font size="5">Description of Data</font><br /> 
@@ -89,7 +89,7 @@ Y = data.iloc[:, 4].values[:, None]
 
 <font size="3"> 1) Function for HL-test</font><br />
 
-We will apply Hosmer-Lemeshow test to compare the goodness of fit in probit and logit model. However, Python doesn't have any package for this test, So, we define the HL test function based on its concept and output the chisquared statitic and p-value for it.
+We will apply Hosmer-Lemeshow test to compare the goodness of fit in probit and logit model. However, Python doesn't have any package for this test, So, we define the HL test function based on its concept and output the chi-squared statistic and p-value for it.
 
 ```{r, eval=FALSE}
 def hl_test(data, g):
@@ -121,7 +121,7 @@ def hl_test(data, g):
 
 <font size="3"> 2) Function for p-values</font><br />
 
-Due to the lack of the function for outputting the significance of each variables in sklearn logistic packages, we write a function to print out p-values for each independent variables in logistic model used in sklearn.
+Due to the lack of the function for outputting the significance of each variables in sklearn logistic packages, we write a function to print out p-values for each independent variables in logistic model in sklearn package.
 
 ```{r, eval=FALSE}
 def logit_p(skm, x):
@@ -171,7 +171,7 @@ p_probit = hl_test(data, 5)
 
 ![](probit_summ_py.png)
 
-From the summary of the probit model above, we can see that *perCapInc* variable is insignificant, while other 3 variables are significant. According to the meaning of these varibales, the population for community, percentage of people living in areas and the percentage of people under the poverty level do have enough influence on the crime rate in communities, while the income of people doesn't have significant influence on the crime rate. And according to the HL test, we can see that the p-value is very close to 0, so we have to reject the null hypthsis. Thus, the probit model didn't fit the data well.
+From the summary of the probit model above, we can see that *perCapInc* variable is insignificant, while other 3 variables are significant. According to the meaning of these varibales, the population for community, percentage of people living in areas and the percentage of people under the poverty level do have enough influence on the crime rate in communities, while the income of people doesn't have significant influence on the crime rate. And according to the HL test, we can see that the p-value is very close to 0, so we have to reject the null hypthesis. Thus, the probit model didn't fit the data well.
 
 <font size="3"> 2) Logit model</font><br />
 
@@ -185,12 +185,12 @@ p_logit = hl_test(data, 5)
 
 ![](logit_summ_py.png)
 
-From the summary of logit model, we can also see that except variable *perCapInc*, other 3 variables are significant. And from the figure above, we can see that the p-value of the HL test in logit model is also very close to 0. So, we have to reject the null hypothesis and concludes that it is compared the result of HL test in logit model with the probit model, we can see that there is slight difference. Thus, the logit model and probit model both didn't fit the dataset well.
+From the summary of logit model, we can also see that except variable *perCapInc*, other 3 variables are significant. And from the figure above, we can see that the p-value of the HL test in logit model is also very close to 0. So, we have to reject the null hypothesis and concludes that it is a poor fit. Compared the result of HL test in logit model with that of the probit model, we can see that there is slight difference. Thus, the logit model and probit model both didn't fit the dataset well.
 
 
 <font size="5"> R Part</font><br />
 
-<font size="4"> 1) Loading and training data</font><br />
+<font size="4"> 1) Loading data</font><br />
 
 We selected the "Population, perCapInc, PctPopUnderPov, pctUrban" as predictor variables and deleted the missing value.
 
@@ -248,7 +248,7 @@ Then we took the Hosmer-Lemeshow test to compare the result of probit model with
 hoslem.test(myprobit$y, fitted(myprobit), g=5)
 ```
 
-The group number is set as 5 because this will be easy to compare the results with other language. The p-value tells us that our model is a good fit. 
+The group number is set as 5 because this will be easy to compare the results with other language. The p-value is 1.41e-06 which is very close to zero. This means we have reject the null hypothesis for the HL test that the model has a good fit. 
 
 <font size="4"> 3) Logistic model</font><br />
 
@@ -272,12 +272,12 @@ The chi-squared test statistic of 285.1 ( a little bit lower than the one in pro
  hoslem.test(mylogit$y, fitted(mylogit), g=5)
 ```
 
-From the H-L test in Logistic model, we can see that the Logistic model also has a good fit. 
+From the H-L test in Logistic model, we can see that the p-value is 4.263e-06 which is similar with the result in Probit model. Therefore we can get the conclusion that both probit model and logistic model fit poorly.  
 
 
 <font size="5"> STATA Part</font><br />
 
-In this example, the models will be evaluated using Pseudo $R^2$, Wald tests, Pearson's test and the Hosmer-Lemeshow test. All three are more easily available in Stata than they are in R or python, so we thought it was worth while to explore all of them briefly below. 
+In this example, the models will be evaluated using Pseudo $R^2$, Wald tests, Pearson's test and the Hosmer-Lemeshow test. All of these diagnostic tests or values are more easily available in Stata than they are in R or python, so we thought it was worth while to explore all of them briefly below. 
 
 Below is the code to import the data set to Stata. The data loaded is a subset of the original data that only includes the relevant columns. 
 
@@ -366,7 +366,7 @@ Both models have good fit according the Pearson's goodness of fit test. Both mod
 
 <font size="5"> Conclusion</font><br />
 
-In all three examples, you can see that logistic and probit regression performed similarly. Running the models and doing the diagnostic tests was relatively easy and short in both Stata and R. However, it was inconvient in Python because Python don't have any packages for lots of tests such as the HL test. Also, the logistic regression model in sklearn packages doesn't include the function for statistics for statstical inference such as the p-values of each independent variables. It is necessary to code the tests from scratch. And the p-value computed in probit model using the Pysal package is comparatively inaccurate, which also inllustrate that Python is not so good as R and Stata while dealingwith statistics problems. This may influence your language choice if you are running similar analysis.
+In all three examples, you can see that logistic and probit regression performed similarly. Running the models and doing the diagnostic tests was relatively easy and short in both Stata and R. However, it was inconvient in Python because Python doesn't have any packages for tests such as the HL test. Also, the logistic regression model in the sklearn package doesn't include the functions to access the values for statistical inference such as the p-values of each independent variables. It is necessary to code the tests from scratch. And the p-value computed in probit model using the Pysal package is comparatively inaccurate, which also illustrates that Python is not as good as R and Stata for dealing with statistics problems. This may influence your language choice if you are running similar analysis.
 
 Your choice of link function may depend on the audience you will present to. Logistic models are common in biological and epidemiological settings because odds ratios are common in those settings. Probit models more often arise in econometric or political science settings. 
 
