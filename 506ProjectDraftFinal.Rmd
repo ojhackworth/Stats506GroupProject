@@ -201,7 +201,7 @@ From the summary of logit model, we can also see that except variable *perCapInc
 We selected the "Population, perCapInc, PctPopUnderPov, pctUrban" as predictor variables and deleted the missing value.
 
 ```{r}
-communities.data <- read.csv("D:/Stat506/HW/Stats506GroupProject/communities.data.txt", header=FALSE)
+communities.data <- read.csv("~/Desktop/Stats506GroupProject/communities.data.txt", header=FALSE)
 df3<-select(communities.data,c(6,17,26,34,128))
 df3<-na.omit(df3)
 a=rep(0,1994)
