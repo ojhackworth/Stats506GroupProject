@@ -1,7 +1,7 @@
 ---
 title: "STATS 506 Group Project"
 author: "Group 13 (Jinwen Cao, Olivia Hackworth, Xian Zhang)"
-date: "Nov.27 2018"
+date: "Dec.06 2018"
 output: html_document
 ---
 
@@ -9,7 +9,7 @@ The purpose of our group is to compare the performance between Probit Regression
 
 <font size="5">Introduction to Probit Regression and Logistic Regression</font><br /> 
 
-The logit model and probit model can both be used to do nonlinear estimation on dichotomous or binary dependent variables. In this tutorial, we will mainly focus on data with binary outcome. In this case the logit model and the logistic model can be used as the same model. These two models both share the same basic idea of applying a link function to binary dependent variables to transform it to continuous variables on the set of real numbers. After the transformation, the commonly used linear regression can be applied to the new data with the original independent variables and transformed dependent variables. The main difference between logit model and probit model is the link function they used. The probit model used the cumulative distribution function (CDF) of standard normal distribution to define link function while the logit model used the CDF of logistic model. The logit function is very similar to standard normal distribution function while the normal distribution function has heavier tail than logit function does.
+When dealing with the dataset that includes the binary dependent variable, the logistic regression can also be called logit model. The logit model and probit model are both used to do nonlinear estimation on dichotomous or binary dependent variables. These two models both share the same basic idea of applying a link function to binary dependent variables to transform it to continuous variables on the set of real numbers. After the transformation, linear regression can be applied to the new data with the original independent variables and transformed dependent variables. The main difference between the logit model and probit model is the link function they used. The link function of probit model is the inversed cumulative distribution function of standard normal distribution \[\Phi^{-1}(p)\] The link function of logit model is the log of odds ratio (log odds) \[log\frac{p}{1-p}\] The logit function is very similar to standard normal distribution while the normal distribution has heavier tail than logit function. After the transformation, the maximum likelihood estimation will be adopted to estimate the parameters that can maximize the probability of what have been observed.
 
 
 <font size="5">Description of Data</font><br /> 
@@ -23,7 +23,6 @@ We chose ViolentCrimesPerPop as response variable and Population, perCapInc, Pct
 Below are three examples using probit and logit regression. They all include a probit regression, and a discussion of results and diagnostics followed by a logit regression, with a similar discussion. One of the diagnostic tests we run is the Hosmer-Lemeshow (HL) test which is also dicussed by Group 5. You could look at their project if you would like more examples. 
 
 The different packages have different capabilities for tests, so the examples don't match exactly. First is an example in Python created by Jinwen. She created her own function to run the HL test, so look there for a function by hand and more technical information about the test. Next is an example in R by Xian. This example expands on Jinwen's. Last is an example in Stata by Olivia. Stata has the easiest access to the tests and statistics we were interested in, so this example includes the longest discussion. 
-
 
 
 ```{r, echo=FALSE,message=FALSE}
@@ -202,7 +201,7 @@ From the summary of logit model, we can also see that except variable *perCapInc
 We selected the "Population, perCapInc, PctPopUnderPov, pctUrban" as predictor variables and deleted the missing value.
 
 ```{r}
-communities.data <- read.csv("~/Desktop/Stats506GroupProject/communities.data.txt", header=FALSE)
+communities.data <- read.csv("D:/Stat506/HW/Stats506GroupProject/communities.data.txt", header=FALSE)
 df3<-select(communities.data,c(6,17,26,34,128))
 df3<-na.omit(df3)
 a=rep(0,1994)
