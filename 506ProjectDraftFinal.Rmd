@@ -18,6 +18,13 @@ The dataset we used is 'Communities and Crime' Data Set from UCI Machine Learnin
 
 We chose ViolentCrimesPerPop as response variable and Population, perCapInc, PctPopUnderPov, pctUrban as predictor variables.However, ViolentCrimesPerPop is a continuous variable while both logit and probit regression require a binary outcome. We made our response binary by classifying observations of 0.5 or higher as high crime communities and observations of less than 0.5 as low crime communities. We chose 0.5 as the cut off because it corresponds to 1 violent crime for every 200,000 people in the community. Our task is to figure out what is more likely to cause high violent crime rate based on their personal information. The probit and logistic regression are carried out to handle this challenge.
 
+<font size="5">Outline of Examples</font><br /> 
+
+Below are three examples using probit and logit regression. They all include a probit regression, and a discussion of results and diagnostics followed by a logit regression, with a similar discussion. One of the diagnostic tests we run is the Hosmer-Lemeshow (HL) test which is also dicussed by Group 5. You could look at their project if you would like more examples. 
+
+The different packages have different capabilities for tests, so the examples don't match exactly. First is an example in Python created by Jinwen. She created her own function to run the HL test, so look there for a function by hand and more technical information about the test. Next is an example in R by Xian. This example expands on Jinwen's. Last is an example in Stata by Olivia. Stata has the easiest access to the tests and statistics we were interested in, so this example includes the longest discussion. 
+
+
 
 ```{r, echo=FALSE,message=FALSE}
 library(aod)
@@ -195,7 +202,7 @@ From the summary of logit model, we can also see that except variable *perCapInc
 We selected the "Population, perCapInc, PctPopUnderPov, pctUrban" as predictor variables and deleted the missing value.
 
 ```{r}
-communities.data <- read.csv("~/Stats506GroupProject/communities.data.txt", header=FALSE)
+communities.data <- read.csv("~/Desktop/Stats506GroupProject/communities.data.txt", header=FALSE)
 df3<-select(communities.data,c(6,17,26,34,128))
 df3<-na.omit(df3)
 a=rep(0,1994)
@@ -279,12 +286,16 @@ From the H-L test in Logistic model, we can see that the p-value is 4.263e-06 wh
 
 In this example, the models will be evaluated using Pseudo $R^2$, Wald tests, Pearson's test and the Hosmer-Lemeshow test. All of these diagnostic tests or values are more easily available in Stata than they are in R or python, so we thought it was worth while to explore all of them briefly below. 
 
-Below is the code to import the data set to Stata. The data loaded is a subset of the original data that only includes the relevant columns. 
+<font size="4"> 1) Import data set</font><br />
+
+Below is the code to import the data set to Stata. The data loaded is a subset of the original data that only includes the relevant columns. The columns are all named according to their attribute names from the data description on the UCI Machine Learning Repository. Additionally, the data set includes the response variable highcrime. Highcrime was made by taking ViolentCrimesPerPop and classifying observations of 0.5 or higher as high crime communities (1) and observations of less than 0.5 as low crime communities (0). In total the data set includes the variables highcrime, percapinc, pctpopunderpov, pcturban, and population. The file CommunitiesCrimeData.csv is available in the github repository.
 
 ```{r, eval=FALSE}
 clear
 import delimited CommunitiesCrimeData.csv
 ```
+
+<font size="4"> 2) Probit model </font><br />
 
 First, we run a probit regression with the data. The syntax for this command is to give the dependent variable followed by any independent variables. If, in and weight options are also avaible, but we didn't use them in this example.
 
@@ -292,7 +303,7 @@ First, we run a probit regression with the data. The syntax for this command is 
 probit highcrime percapinc pctpopunderpov pcturban population
 ```
 
-![](probit.png)
+![](probit.png){ width=75% }
 
 Here is the output for the probit regression. One measure of goodness of fit that can be accessed at this point is Pseudo $R^2$ which is 0.2487 for this model.  Pseudo $R^2$ is used for probit regression because the typical OLS $R^2$ does not apply. This measure should be used cautiously because it is difficult to interpret and does not represent the proportion of the variance explained by the independent variables like the OLS $R^2$.
 
@@ -304,7 +315,7 @@ We can access more information on goodness of fit by using a postestimation comm
 estat gof
 ```
 
-![](probit_gof.png)
+![](probit_gof.png){ width=75% }
 
 This command performs a Pearson's goodness of fit test. The p-value for this test (the Prob > chi2 line) is 1, so we fail to reject the null that the model is a good fit.
 
@@ -314,7 +325,7 @@ We can also perform a Hosmer-Lemeshow test for goodness of fit. The code is very
 estat gof, group(5) table
 ```
 
-![](probit_gof_hl.png)
+![](probit_gof_hl.png){ width=75% }
 
 
 Typically, the Hosmer-Lemeshow specifies 10 groups. However, in the case when there are small group counts, it is recommended that we choose a smaller number of groups.
@@ -323,6 +334,8 @@ Here we've reduced the number of groups here to 5. Even with the reduced number 
 The p-value for this test is > 0.001, which tells us to reject the null hypothesis that the model is a good fit. This contradicts the conclusion we came to with Pearson's test. We showed above that this test may not be reliable, so we should trust the Pearson's test results instead of these results.
 
 
+<font size="4"> 3) Logit model </font><br />
+
 Next we run a logistic regression. The syntax for this command is the same as for the probit command. 
 
 
@@ -330,7 +343,7 @@ Next we run a logistic regression. The syntax for this command is the same as fo
 logistic highcrime percapinc pctpopunderpov pcturban population
 ```
 
-![](logistic.png)
+![](logistic.png){ width=75% }
 
 
 Here is the output for the logistic regression. Again, Pseudo $R^2$ is available. For this model it is 0.2402.  Similar to probit regression, Pseudo $R^2$ is used for probit regression because the typical OLS $R^2$ does not apply.
@@ -343,7 +356,7 @@ We can access more information on goodness of fit by using a postestimation comm
 estat gof
 ```
 
-![](logistic_gof.png)
+![](logistic_gof.png){ width=75% }
 
 This command performs a Pearson's goodness of fit test. The p-value for this test (the Prob > chi2 line) is 1, so we fail to reject the null that the model is a good fit. 
 
@@ -353,7 +366,7 @@ We can also perform a Hosmer-Lemeshow test for goodness of fit.
 estat gof, group(5) table
 ```
 
-![](logistic_gof_hl.png)
+![](logistic_gof_hl.png){ width=75% }
 
 Similarly to the probit case, we've reduced the number of groups here to 5. Even with the reduced number of groups, the first two groups still have low counts of high crime communities. The low group counts mean that the results of this test are unreliable.
 
