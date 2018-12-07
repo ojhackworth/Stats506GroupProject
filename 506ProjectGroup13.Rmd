@@ -243,7 +243,7 @@ head(df3)
 The code below estimates a probit regression model using the glm (generalized linear model) function.
 
 ```{r}
-myprobit = glm(Highcrime ~Population+PctUrban+PerCapInc+PctPopUnderPov, family = binomial(link = "probit"), data = df3)
+myprobit = glm(Highcrime~Population+PctUrban+PerCapInc+PctPopUnderPov, family=binomial(link = "probit"), data=df3)
 summary(myprobit)
 ```
 
@@ -251,7 +251,7 @@ The deviance residuals are a measure of model fit. This part of output shows the
 
 From the result we can see that "Population, PctPopUnderPov, pctUrban" are statistically significant while "perCapInc" doesn't have good performance. 
 
-Below the table of coefficients are fit indices, including the null and deviance residuals and the AIC. Later we show an example of how you can use these values to help assess model fit. In addition, we can obtain confidence intervals for the coefficient estimates that is based on the standard error and the normal assumption.
+Below the table of coefficients are fit indices, including the null and deviance residuals and the AIC. Also below we show an example of how you can use these values to help assess model fit. In addition, we can obtain confidence intervals for the coefficient estimates that is based on the standard error and the normal assumption.
 
 ```{r}
 confint(myprobit)
@@ -260,19 +260,19 @@ confint(myprobit)
 We can test for an overall effect of "Population, PctPopUnderPov, pctUrban, perCapInc" using the wald.test function.
 
 ```{r}
-wald.test(b = coef(myprobit), Sigma = vcov(myprobit), Terms = 2:5)
+wald.test(b = coef(myprobit), Sigma=vcov(myprobit), Terms=2:5)
 ```
 
-The chi-squared test statistic of 322.7 with 4 degrees of freedom is associated with a p-value of less than 0.001 indicating that the overall effect of rank is statistically significant. Then we use testing data set and predicted probabilities to help us understand the model. 
+The chi-squared test statistic of 322.7 with 4 degrees of freedom is associated with a p-value of less than 0.001 indicating that the overall effect of the 4 predictors is statistically significant. Then we can compute the difference in deviance and test it with chi-square test. 
 
 ```{r}
-df3[, c("p", "se")] = predict(myprobit, df3, type = "response", se.fit = TRUE)[-3]
-with(myprobit, pchisq(null.deviance - deviance, df.null - df.residual, lower.tail = FALSE))
+df3[, c("p","se")]=predict(myprobit, df3, type = "response", se.fit = TRUE)[-3]
+with(myprobit, pchisq(null.deviance-deviance, df.null-df.residual, lower.tail = FALSE))
 ```
 
 We can also see measures of how well our model fits. The chi-square of 305.8052 with 3 degrees of freedom and an associated p-value of less than 0.001 tells us that our model as a whole fits significantly better than an empty model.
 
-Then we took the Hosmer-Lemeshow test to compare the result of probit model with logistic model. 
+Then we use the Hosmer-Lemeshow test to test the probit model.
 
 ```{r}
 hoslem.test(myprobit$y, fitted(myprobit), g=5)
@@ -282,10 +282,10 @@ The group number is set as 5 because this will be easy to compare the results wi
 
 <font size="4"> 3) Logistic model</font><br />
 
-Just like the probit regression, the code below estimates a probit regression model using the glm (generalized linear model) function.
+Just like the probit regression, the code below estimates a logit regression model using the glm (generalized linear model) function.
 
 ```{r}
-mylogit=glm(Highcrime ~Population+PctUrban+PerCapInc+PctPopUnderPov, data = df3, family = "binomial")
+mylogit=glm(Highcrime~Population+PctUrban+PerCapInc+PctPopUnderPov, data=df3, family = "binomial")
 summary(mylogit)
 confint.default(mylogit)
 ```
@@ -293,10 +293,10 @@ confint.default(mylogit)
 We can see that Logistic model has similar result as the Probit model. All the predictors are statistically significant except for perCapInc. (The p-value for perCapInc in Logistic model is lower than in Probit model)
 
 ```{r}
-wald.test(b = coef(mylogit), Sigma = vcov(mylogit), Terms = 2:5)
+wald.test(b=coef(mylogit), Sigma=vcov(mylogit), Terms=2:5)
 ```
 
-The chi-squared test statistic of 285.1 ( a little bit lower than the one in probit regression) with 4 degrees of freedom is associated with a p-value of less than 0.001 indicating that the overall effect of rank is statistically significant. 
+The chi-squared test statistic of 285.1 ( a little bit lower than the one in probit regression) with 4 degrees of freedom is associated with a p-value of less than 0.001 indicating that the overall effect of the 4 predictors is statistically significant. 
 
 ```{r}
  hoslem.test(mylogit$y, fitted(mylogit), g=5)
