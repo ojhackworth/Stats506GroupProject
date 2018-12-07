@@ -167,8 +167,9 @@ Due to the lack of the function for outputting the significance of each variable
 ```{r, eval=FALSE}
 def logit_p(skm, x):
     '''
-     Print the p-value for sklearn logit model
-
+    Print the p-value for sklearn logit model
+   (The function written below is mainly based on the stackoverflow website -- P-value function for sklearn[3])
+    
     Input: model, nparray(df of independent variables)
     
     Output: none
@@ -408,19 +409,19 @@ Your choice of link function may depend on the audience you will present to. Log
 
 <font size="5"> Reference</font><br />
 
-* Hosmer-Lemeshow in Python: https://www.data-essential.com/hosman-lemeshow-in-python/ 
-* Hosmer-Lemeshow goodness of fit test for logistic regression: http://thestatsgeek.com/2014/02/16/the-hosmer-lemeshow-goodness-of-fit-test-for-logistic-regression/
-* P-value function for sklearn: https://stackoverflow.com/questions/25122999/scikit-learn-how-to-check-coefficients-significance
-* Sklearn logistic regression document: https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
-* Pysal probit model document: https://pysal.readthedocs.io/en/v1.6/library/spreg/probit.html
-* Stata logistic documentation: https://www.stata.com/manuals13/rlogistic.pdf    
-* UCLA Stata logistic regression: https://stats.idre.ucla.edu/stata/output/logistic-regression-analysis/    
-* Stata estat gof documentation: https://www.stata.com/manuals13/restatgof.pdf     
-* Stata probit documentation: https://www.stata.com/manuals13/rprobit.pdf   
-* UCLA Stata probit regression: https://stats.idre.ucla.edu/stata/dae/probit-regression/    
-* The Analysis Factor: https://www.theanalysisfactor.com/the-difference-between-logistic-and-probit-regression/ 
-* UCLA R logistic regression: https://stats.idre.ucla.edu/r/dae/logit-regression/
-* UCLA R Probit regression: https://stats.idre.ucla.edu/r/dae/probit-regression/
-* Methods: What is the difference between logit and probit model: https://www.methodsconsultants.com/tutorial/what-is-the-difference-between-logit-and-probit-models/
-* Wiki Probit regression: https://en.wikipedia.org/wiki/Probit_model
-* Wiki Logistic regression: https://en.wikipedia.org/wiki/Logistic_regression
+* [1] Hosmer-Lemeshow in Python: https://www.data-essential.com/hosman-lemeshow-in-python/ 
+* [2] Hosmer-Lemeshow goodness of fit test for logistic regression: http://thestatsgeek.com/2014/02/16/the-hosmer-lemeshow-goodness-of-fit-test-for-logistic-regression/
+* [3] P-value function for sklearn: https://stackoverflow.com/questions/25122999/scikit-learn-how-to-check-coefficients-significance
+* [4] Sklearn logistic regression document: https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
+* [5] Pysal probit model document: https://pysal.readthedocs.io/en/v1.6/library/spreg/probit.html
+* [6] Stata logistic documentation: https://www.stata.com/manuals13/rlogistic.pdf    
+* [7] UCLA Stata logistic regression: https://stats.idre.ucla.edu/stata/output/logistic-regression-analysis/    
+* [8] Stata estat gof documentation: https://www.stata.com/manuals13/restatgof.pdf     
+* [9] Stata probit documentation: https://www.stata.com/manuals13/rprobit.pdf   
+* [10] UCLA Stata probit regression: https://stats.idre.ucla.edu/stata/dae/probit-regression/    
+* [11] The Analysis Factor: https://www.theanalysisfactor.com/the-difference-between-logistic-and-probit-regression/ 
+* [12] UCLA R logistic regression: https://stats.idre.ucla.edu/r/dae/logit-regression/
+* [13] UCLA R Probit regression: https://stats.idre.ucla.edu/r/dae/probit-regression/
+* [14] Methods: What is the difference between logit and probit model: https://www.methodsconsultants.com/tutorial/what-is-the-difference-between-logit-and-probit-models/
+* [15] Wiki Probit regression: https://en.wikipedia.org/wiki/Probit_model
+* [16] Wiki Logistic regression: https://en.wikipedia.org/wiki/Logistic_regression
