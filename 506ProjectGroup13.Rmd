@@ -84,7 +84,7 @@ from scipy.stats import chi2, norm
 
 <font size="4"> 2) Load and clean the data</font><br />
 
-Before implementing the models, we first load the data in our working directory. Having noticed that this dataset used '?' as missing values, we repalce it with np.nan so that the missing values can be figured out by Python. And then we select the independent variables we need which are 'population' (col6), 'pctUrban' (col17), 'perCapInc' (col26), 'PctPopUnderPov' (col34) and dependent variable 'ViolentCrimesPerPop' (col128). And then we drop all the lines that include missing values. And the top 5 lines of the dataset are shown below.
+Before implementing the models, we first load the data in our working directory. Having noticed that this dataset used '?' as missing values, we replace it with np.nan so that the missing values can be figured out by Python. And then we select the independent variables we need which are 'population' (col6), 'pctUrban' (col17), 'perCapInc' (col26), 'PctPopUnderPov' (col34) and dependent variable 'ViolentCrimesPerPop' (col128). And then we drop all the lines that include missing values. And the top 5 lines of the dataset are shown below.
 
 ```{r, eval=FALSE}
 with open('communities.data','rb') as f:
@@ -112,7 +112,7 @@ data.head()
 
 
 <font size="4"> 3) Recode the data</font><br />
-As this tutorial mainly focus on the binary outcome variable, we create a cut-off point for the dependent variable to transform it from continuous to binary. We set the value of *ViolentCrimesPerPop* (total number of violent crimes per 100K popuation) to be 1 when it is larger than 0.5 and to be 0 when it is smaller than 0.5. The following table is the summary of the recoded data. We can see that the data is standardized --- the range of each variables are [0, 1].
+As this tutorial mainly focuses on the binary outcome variable, we create a cut-off point for the dependent variable to transform it from continuous to binary. We set the value of *ViolentCrimesPerPop* (total number of violent crimes per 100K popuation) to be 1 when it is larger than or equal to 0.5 and to be 0 when it is smaller than 0.5. The following table is the summary of the recoded data. We can see that the data is standardized --- the range of each variables are [0, 1].
 
 ```{r, eval=FALSE}
 data['ViolentCrimesPerPop'][ data['ViolentCrimesPerPop'] > 0.5 ] = 1
